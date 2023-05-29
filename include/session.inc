@@ -1,5 +1,5 @@
 <?php
-session_start();
+@session_start();
 require 'db.inc';
 if ($username = $_SESSION['rmsusername']) {
     $password = $_SESSION['rmspassword'];

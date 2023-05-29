@@ -9,7 +9,6 @@
     </head>
     <body>
         <?php include 'include/menu.inc';?>
-        <div class="overlay">
             <div class="property-form">
                 <div class="form-header">Add New Property</div>
                 <form action="#" method="post">

@@ -1,19 +1,17 @@
-<? include "include/session.php";?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>Clients</title>
     </head>
     <body>
         <?php require "include/menu.inc";?>
-        <div class="overlay">
             <div class="current-tenants">
                 <?php
                 require "include/db.inc";
-                $query = "CREATE VIEW IF NOT EXISTS active_clients AS SELECT tenancy, fname, sname,phone, location, monthlyrent, clients.housename, housetype FROM clients, houses WHERE clients.housename = houses.housename";
+                $query = "CREATE VIEW IF NOT EXISTS active_clients AS SELECT sir_name, first_name, phone, location, monthlyrent, total_rent, paid_rent, balance, clients.housename, housetype FROM clients, houses WHERE clients.housename = houses.housename AND clients.tenancy = true";
                 mysqli_query($conn, $query);
 
-                $client_query = "SELECT fname, sname, phone, location, monthlyrent, housename, housetype FROM active_clients WHERE tenancy = true";
+                $client_query = "SELECT sir_name, first_name, phone, location, monthlyrent, total_rent, paid_rent, balance, housename, housetype FROM active_clients";
                 $result = mysqli_query($conn, $client_query);
 
                 // check that the view is not empty before any queries on it
@@ -27,7 +25,7 @@
                                     Name:
                                 </div>
                                 <div class="content">
-                                    ' . $row["sname"] . ' ' . $row["fname"] .'
+                                    ' . $row["sir_name"] . ' ' . $row["first_name"] .'
                                 </div>
                             </div>
                             <div class="row">
@@ -70,6 +68,36 @@
                                     ' . $row["monthlyrent"] .'
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="title">
+                                    Total Rent:
+                                </div>
+                                <div class="content">
+                                    ' . $row["total_rent"] .'
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="title">
+                                    Paid Rent:
+                                </div>
+                                <div class="content">
+                                    ' . $row["paid_rent"] .'
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="title">
+                                    Balance:
+                                </div>
+                                <div class="content">
+                                    ' . $row["balance"] . '
+                                </div>
+                            </div>
+                            <div class="row">
+                                <form method="post" action="include/vacate.php">
+                                <input type="hidden" name="house-name" value="' . $row["housename"] . '">
+                                <button type="submit" onclick="return confBox(event)">Vacate Client</button>
+                                </form>
+                            </div>
                         </div>
                         ';
                     }
@@ -77,6 +105,7 @@
                     echo 'No Occupied Houses';
                 }
                 mysqli_close($conn);
+
                 ?>
             </div>
         </div>

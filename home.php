@@ -1,6 +1,5 @@
-<?php require 'include/session.inc'?>
 <!DOCTYPE html>
-<html >
+<html  lang="en">
     <head>
         <title>RMS Home</title>
         <style>
@@ -8,25 +7,14 @@
                 text-align: center;
             }
         </style>
-        <script>
-            function fillClientForm() {
-                // Get the values from the first page
-                const housetype = document.getElementById('housetype').value;
-                const housename = document.getElementById('housename').value;
-                const monthlyrent = document.getElementById('monthlyrent').value;
-
-                // Set the values in the URL of the second page
-                const url = 'addclient.php?housetype=' + encodeURIComponent(housetype) + '&housename=' + encodeURIComponent(housename) + '&monthlyrent=' + encodeURIComponent(monthlyrent);
-
-                // Navigate to the second page
-                window.location.href = url;
-            }
-        </script>
+        
     </head>
     <body>
     <?php require 'include/menu.inc';?>
-    <div class="overlay">
         <div class="output">
+            <div class="search">
+                <input type="search" placeholder="Search by name/type">
+            </div>
             <div class="available-houses">
             <?php require 'include/db.inc';
             $query = "SELECT * FROM houses WHERE occupied = false";
